@@ -19,3 +19,8 @@ namespace mainSettings
 {
 	inline int showPos = true;
 }
+
+namespace mapSettings
+{
+	inline int forestSeeds = 200;
+}

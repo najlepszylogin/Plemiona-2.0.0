@@ -13,23 +13,27 @@ private:
 
 public:
 	int color;
+	int back_color = _black;
 	std::string name;
 	Vector2 pos;
 	char *appearance;
 
-	Tile(int color, std::string str, Vector2 pos, char *app)
+
+	Tile(int color, std::string str, Vector2 pos, char *app, int bkccl = _black)
 	{
 		this->color = color;
 		this->name = str;
 		this->pos = pos;
 		this->appearance = app;
+		back_color = bkccl;
 	}
-	void Reset(int color, std::string str, Vector2 pos, char *app)
+	void Reset(int color, std::string str, Vector2 pos, char *app, int bkccl = _black)
 	{
 		this->color = color;
 		this->name = str;
 		this->pos = pos;
 		this->appearance = app;
+		back_color = bkccl;
 	}
 	~Tile() {};
 };
@@ -39,7 +43,7 @@ class MapManager
 {
 private:
 	
-	int offset = 20;
+	int CheckNeigh(std::string input, std::string checking, Vector2 pos);
 
 public:
 	Vector2 size;

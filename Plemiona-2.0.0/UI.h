@@ -22,6 +22,7 @@ namespace UI
 		inline Box settings_frame(95,30,40,30,0,1);
 		inline Box settings_exit(202, 71, 15, 2, 0,1);
 		inline Box controlBox(5,43,36,6);
+		inline Box tilePanel(5, 50, 36, 13);
 	}
 	namespace strings
 	{
