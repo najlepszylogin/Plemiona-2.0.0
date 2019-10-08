@@ -96,7 +96,7 @@ void MapManager::LoadMap(std::string filename)
 			}
 			if (mainmapimage.getPixel(i, j) == map::water)
 			{
-				mainMap[i][j].Reset(_laz_, names::water, Vector2(i, j), &map::waterch);
+				mainMap[i][j].Reset(_laz, names::water, Vector2(i, j), &map::waterch);
 				continue;
 			}
 
@@ -132,7 +132,15 @@ void MapManager::LoadMap(std::string filename)
 		}
 	}
 
-
+	for (int i = 0; i < mapSettings::forestSeeds*3; i++)
+	{
+		Vector2 los;
+		do {
+			los.x = rand() % (int)size.x;
+			los.y = rand() % (int)size.y;
+		} while (mainMap[los.x][los.y].name != names::plains);
+		mainMap[los.x][los.y].Reset(_green_, names::forest, Vector2(los.x, los.y), &map::forestch);
+	}
 
 	system("CLS");
 

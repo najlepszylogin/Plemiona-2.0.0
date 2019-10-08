@@ -13,5 +13,8 @@ namespace names
 	inline std::string village = "Wioska";
 	inline std::string capital = "Stolica";
 
+	inline std::string cursorxpos = "Kursor X=";
+	inline std::string cursorypos = "Y=";
+
 }
 

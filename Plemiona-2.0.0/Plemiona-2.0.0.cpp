@@ -13,13 +13,12 @@
 int main()
 {
 	
-	game.LoadEngine();
+	
 	std::cout << " - Game Loaded";
 	system("CLS");
 
 	//this only works here
 	game.wind.Init();
-
 
 	do
 	{
@@ -35,14 +34,10 @@ int main()
 			//game.DrawTst();
 			game.wind.cls();
 		}
-		
-		
-
 
 	} while (Game::e == 0);
 	
 	system("CLS");
 	std::cout << "Zakonczono program\n\n";
-
 
 }

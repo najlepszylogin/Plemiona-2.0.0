@@ -5,6 +5,7 @@
 #include "GameManager.h"
 #include "Defines.h"
 
+
 class GameManager;
 
 class Tile
@@ -17,6 +18,7 @@ public:
 	std::string name;
 	Vector2 pos;
 	char *appearance;
+	bool highlighted = false;
 
 
 	Tile(int color, std::string str, Vector2 pos, char *app, int bkccl = _black)
@@ -35,6 +37,26 @@ public:
 		this->appearance = app;
 		back_color = bkccl;
 	}
+	Tile()
+	{
+		color = _black;
+		back_color = _black;
+		pos = Vector2(-1, -1);
+		
+	}
+	void Click()
+	{
+		if (highlighted)
+			highlighted = false;
+		else highlighted = true;
+
+	}
+	void Reset()
+	{
+		color = _black;
+		back_color = _black;
+		pos = Vector2(-1, -1);
+	}
 	~Tile() {};
 };
 
@@ -46,6 +68,7 @@ private:
 	int CheckNeigh(std::string input, std::string checking, Vector2 pos);
 
 public:
+	Tile currentTile;
 	Vector2 size;
 	sf::Image mainmapimage;
 	void Draw(GameManager *mgr);

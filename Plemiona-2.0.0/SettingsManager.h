@@ -17,7 +17,7 @@ namespace playersSettings
 
 namespace mainSettings
 {
-	inline int showPos = true;
+	inline double showPos = true;
 }
 
 namespace mapSettings

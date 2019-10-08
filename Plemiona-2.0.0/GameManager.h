@@ -69,11 +69,15 @@ public:
 
 	//utility
 	Vector2 GetMousePos();
+	Vector2 MouseToMapPos(Vector2 pos);
 	Vector2 MouseClickPos;
 	
 };
 
 inline GameManager game;
+
+inline VariableString cursorPositionx(23, 45, game.players[Game::currentPlayer].mapPos.x, "Kursor X: ", 0, 15, 15);
+inline VariableString cursorPositiony(23, 47, game.players[Game::currentPlayer].mapPos.y, "Kursor Y: ", 0, 15,15);
 
 inline void RedrawAll(GameManager* mgr)
 {

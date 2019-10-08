@@ -28,6 +28,7 @@ void GameManager::DrawTst()
 
 GameManager::GameManager()
 {
+	LoadEngine();
 	std::cout << "loaded";
 }
 
@@ -217,7 +218,7 @@ void GameManager::WriteVarString(VariableString& str)
 		wind.gotoxy(str.pos);
 		std::cout << str.str;
 		SetConsoleTextAttribute(wind.hOut, str.color2);
-		std::cout << *str.var;
+		std::cout << *str.var<<"    ";
 		SetConsoleTextAttribute(wind.hOut, _white);
 	}
 }
@@ -230,7 +231,7 @@ void GameManager::WriteVarString(ClickableVarString& str)
 		wind.gotoxy(str.pos);
 		std::cout << str.str;
 		SetConsoleTextAttribute(wind.hOut, str.color2);
-		std::cout << *str.var;
+		std::cout << *str.var << "    ";;
 		SetConsoleTextAttribute(wind.hOut, _white);
 	}
 
@@ -266,6 +267,7 @@ bool GameManager::Update()
 					wind.gotoxy(1, 73);
 					std::cout << GetMousePos() << "        ";
 				}
+				MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y));
 				FlushConsoleInputBuffer(wind.hin);
 				return true;
 			}
@@ -482,6 +484,16 @@ void GameManager::AskForNames()
 	
 }
 
+Vector2 GameManager::MouseToMapPos(Vector2 pos)
+{
+	if (pos.x > 3 && pos.y > 3 && pos.x < 42 && pos.y < 42 && players[Game::currentPlayer].mapPos.x + MouseClickPos.x - 23 >= 0 && players[Game::currentPlayer].mapPos.x + MouseClickPos.x - 23 < MainMap.size.x && players[Game::currentPlayer].mapPos.y + MouseClickPos.y - 23 >= 0 && players[Game::currentPlayer].mapPos.y + MouseClickPos.y - 23 < MainMap.size.y)
+	{
+		return Vector2(players[Game::currentPlayer].mapPos.x + MouseClickPos.x - 23, players[Game::currentPlayer].mapPos.y + MouseClickPos.y - 23);
+	}
+	else return MainMap.currentTile.pos;
+	
+}
+
 bool GameManager::CheckIfNear(Vector2& pos, int x)
 {
 	for (int h = 0; h < x; h++)
@@ -515,7 +527,7 @@ void GameManager::InitPlayers(int x, std::string name[], int colors[])
 			}
 			
 			AddPlayer(name[i], colors[i], i, poss);
-
+			MainMap.currentTile = MainMap.mainMap[poss.x][poss.y];
 			continue;
 		}
 		else

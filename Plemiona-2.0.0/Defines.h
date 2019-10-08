@@ -44,7 +44,7 @@ namespace map
 	inline char mountainch = 94;
 	inline char forestch = 178;
 	inline char capitalch = 219;
-	inline char grassch = 177;
+	inline char grassch = 178;
 	inline char riverch = 176;
 	inline char playerch = 193;
 	inline char blok = bloczek;

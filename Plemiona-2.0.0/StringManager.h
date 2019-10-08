@@ -25,9 +25,9 @@ public:
 		this->str = str;
 		this->color = color;
 		pos = position;
-		strings.push_back(this);
-		this->menu = menu;
 		
+		this->menu = menu;
+		strings.push_back(this);
 	}
 	String(int x, int y, std::string str, int menu = 0, int color = _white)
 	{
@@ -35,8 +35,9 @@ public:
 		pos.y = y;
 		this->str = str;
 		this->color = color;
-		strings.push_back(this);
+		
 		this->menu = menu;
+		strings.push_back(this);
 	}
 	~String() {};
 	
@@ -59,8 +60,8 @@ public:
 		this->color = color;
 		pos = position;
 		this->size = size;
-		stringboxes.push_back(this);
 		this->menu = menu;
+		stringboxes.push_back(this);
 	}
 	StringBox(int x, int y, int width, int height, std::string str, int menu = 0, int color = _white)
 	{
@@ -70,8 +71,8 @@ public:
 		this->color = color;
 		size.x = width;
 		size.y = height;
-		stringboxes.push_back(this);
 		this->menu = menu;
+		stringboxes.push_back(this);
 	}
 	~StringBox() {};
 };
@@ -83,21 +84,23 @@ public:
 	Vector2 pos;
 	int color;
 	int color2;
-	int *var;
+	double *var;
 	static std::vector<VariableString*> variablestrings;
 	int menu;
 
-	VariableString(Vector2 position,int &variable, std::string str,int menu = 0, int color = _white, int color2 = _white)
+
+	VariableString(Vector2 position, double &variable, std::string str, int menu = 0, int color = _white, int color2 = _white)
 	{
 		this->str = str;
 		this->color = color;
 		pos = position;
 		var = &variable;
 		this->color2 = color2;
-		variablestrings.push_back(this);
+
 		this->menu = menu;
+		variablestrings.push_back(this);
 	}
-	VariableString(int x, int y, int& variable, std::string str, int menu = 0, int color = _white, int color2 = _white)
+	VariableString(int x, int y, double &variable, std::string str, int menu = 0, int color = _white, int color2 = _white)
 	{
 		pos.x = x;
 		pos.y = y;
@@ -105,8 +108,9 @@ public:
 		this->color = color;
 		var = &variable;
 		this->color2 = color2;
-		variablestrings.push_back(this);
+
 		this->menu = menu;
+		variablestrings.push_back(this);
 	}
 	~VariableString() {};
 };
@@ -128,9 +132,10 @@ public:
 		color = _white;
 		pos = Vector2(0, 0);
 		def_color = _white;
-		clickablestrings.push_back(this);
+		
 		Action = nullptr;
 		menu = 0;
+		clickablestrings.push_back(this);
 	}
 	ClickableString(Vector2 position, std::string str, void f(GameManager*), int menu = 0, int color = _white)
 	{
@@ -138,9 +143,10 @@ public:
 		this->color = color;
 		pos = position;
 		def_color = color;
-		clickablestrings.push_back(this);
+		
 		Action = *f;
 		this->menu = menu;
+		clickablestrings.push_back(this);
 	}
 	ClickableString(int x, int y, std::string str, void f(GameManager*), int menu = 0, int color = _white)
 	{
@@ -149,9 +155,10 @@ public:
 		this->str = str;
 		this->color = color;
 		def_color = color;
-		clickablestrings.push_back(this);
+		
 		Action = *f;
 		this->menu = menu;
+		clickablestrings.push_back(this);
 	}
 	~ClickableString() {};
 	void ChangeState()
@@ -187,7 +194,7 @@ public:
 	int color2;
 	int def_color;
 	int def_color2;
-	int* var;
+	double* var;
 	bool clicked = false;
 	static std::vector<ClickableVarString*> clickablevarstrings;
 	void (*Action)(GameManager*);
@@ -205,7 +212,7 @@ public:
 		def_color2 = _white;
 		var = nullptr;
 	}
-	ClickableVarString(Vector2 position, int& variable, std::string str, void f(GameManager*), int menu = 0, int color = _white, int color2 = _white)
+	ClickableVarString(Vector2 position, double& variable, std::string str, void f(GameManager*), int menu = 0, int color = _white, int color2 = _white)
 	{
 		this->str = str;
 		this->color = color;
@@ -218,7 +225,7 @@ public:
 		Action = *f;
 		this->menu = menu;
 	}
-	ClickableVarString(int x, int y, int& variable, std::string str, void f(GameManager*), int menu = 0, int color = _white, int color2 = _white)
+	ClickableVarString(int x, int y, double& variable, std::string str, void f(GameManager*), int menu = 0, int color = _white, int color2 = _white)
 	{
 		pos.x = x;
 		pos.y = y;

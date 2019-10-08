@@ -5,6 +5,7 @@
 #include "Shapes.h"
 #include "Functions.h"
 #include "Player.h"
+#include "GameManager.h"
 
 
 namespace UI
@@ -23,6 +24,7 @@ namespace UI
 		inline Box settings_exit(202, 71, 15, 2, 0,1);
 		inline Box controlBox(5,43,36,6);
 		inline Box tilePanel(5, 50, 36, 13);
+		inline Box tileBox(6, 51, 2, 2);
 	}
 	namespace strings
 	{
@@ -33,6 +35,7 @@ namespace UI
 		inline ClickableBackButton settingsBtn(208, 63, "Opcje", func::openSettings, 0);
 		inline ClickableBackButton exitBtnStn(208, 72, "Wyjdz", func::openMainMenu,1,_red);
 		inline ClickableVarString showPosition(97, 32,mainSettings::showPos, "Pozycja Myszy: ", func::mousePosF, 1);
+	
 
 		
 	}
