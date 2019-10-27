@@ -11,6 +11,7 @@ namespace Game
 	inline int playerColorsTemp[4] = { _red, _blue, _pink,_pink_};
 	inline int menu = 0; //0 - main, 1 - settings,
 	inline int currentPlayer = 0;
+	inline double current_narrator_page = 0;
 	
 };
 

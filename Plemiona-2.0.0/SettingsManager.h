@@ -13,11 +13,14 @@ namespace times
 namespace playersSettings
 {
 	inline const int playersNum = 1;
+	
 }
 
 namespace mainSettings
 {
 	inline double showPos = true;
+	inline double music = true;
+	inline double sounds = true;
 }
 
 namespace mapSettings

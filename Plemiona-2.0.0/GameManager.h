@@ -14,6 +14,8 @@
 
 
 
+
+
 static class GameManager
 {
 
@@ -72,6 +74,9 @@ public:
 	Vector2 MouseToMapPos(Vector2 pos);
 	Vector2 MouseClickPos;
 	
+	//mechanics
+	void NextPlayer();
+	void NextTurn();
 };
 
 inline GameManager game;

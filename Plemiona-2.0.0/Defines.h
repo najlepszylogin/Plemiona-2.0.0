@@ -61,6 +61,8 @@ namespace map
 	inline sf::Color mountain(125, 125, 125, 255);
 	inline sf::Color water(0, 0, 255,255);
 	inline sf::Color river(0, 255, 255, 255);
+
+	inline int maxTravelCost = 99;
 }
 
 

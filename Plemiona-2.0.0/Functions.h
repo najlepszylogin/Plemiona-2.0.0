@@ -34,6 +34,23 @@ namespace func
 		system("CLS");
 		mgr->wind.Init();
 	}
+	inline void musicF(GameManager* mgr)
+	{
+		if (mainSettings::music == true)mainSettings::music = false;
+		else
+			mainSettings::music = true;
+		system("CLS");
+		mgr->wind.Init();
+	}
+	inline void soundsF(GameManager* mgr)
+	{
+		if (mainSettings::sounds == true)mainSettings::sounds = false;
+		else
+			mainSettings::sounds = true;
+		system("CLS");
+		mgr->wind.Init();
+	}
+
 	inline void backToHome(GameManager* mgr)
 	{
 		mgr->players[Game::currentPlayer].mapPos = mgr->players[Game::currentPlayer].pos;
@@ -65,6 +82,11 @@ namespace func
 		
 	}
 
+
 }
+
+
+
+
 
 

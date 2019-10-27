@@ -160,14 +160,17 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Plemiona-2.0.0.cpp" />
+    <ClCompile Include="TODO.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BonusFuncs.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Loader.h" />
     <ClInclude Include="MapManager.h" />
+    <ClInclude Include="Narrator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SettingsManager.h" />
     <ClInclude Include="Shapes.h" />

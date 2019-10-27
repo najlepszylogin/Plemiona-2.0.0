@@ -19,7 +19,10 @@ public:
 	static std::vector<String*> strings;
 	int menu;
 
-
+	void SetText(std::string text)
+	{
+		str = text;
+	}
 	String(Vector2 position, std::string str, int menu = 0, int color = _white)//menu is index of menuUI
 	{
 		this->str = str;
@@ -53,6 +56,10 @@ public:
 	Vector2 size;
 	static std::vector<StringBox*> stringboxes;
 	int menu;
+	void SetText(std::string text)
+	{
+		str = text;
+	}
 
 	StringBox(Vector2 position, Vector2 size, std::string str, int menu = 0, int color = _white)
 	{

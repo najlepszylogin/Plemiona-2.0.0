@@ -1,4 +1,5 @@
 #include "MapManager.h"
+#include "BonusFuncs.h"
 
 
 void MapManager::Draw(GameManager *mgr)
@@ -8,14 +9,34 @@ void MapManager::Draw(GameManager *mgr)
 	for (int i = mgr->players[Game::currentPlayer].mapPos.x - 19; i < mgr->players[Game::currentPlayer].mapPos.x + 19;i++)
 	{
 		h = 4;
+
+		
+
 		for (int j = mgr->players[Game::currentPlayer].mapPos.y - 19; j < mgr->players[Game::currentPlayer].mapPos.y + 19; j++)
 		{
+			
 			mgr->wind.gotoxy(w, h);
-			if (j < size.y && j >= 0 && i < size.x && i >= 0)
+
+			if (j < size.y && j >= 0 && i < size.x && i >= 0 && mainMap[i][j].open[Game::currentPlayer])
 			{
-				SetConsoleTextAttribute(mgr->wind.hOut, mainMap[i][j].color | mainMap[i][j].back_color);
-				std::cout << mainMap[i][j].appearance[0];
-				SetConsoleTextAttribute(mgr->wind.hOut, _white);
+				//bonuses here
+				if (mainMap[i][j].bonus.met == false && mainMap[i][j].bonus.name!=names::empty)mainMap[i][j].bonus.Met(mgr);
+
+
+
+				if (currentTile.pos.x == i && currentTile.pos.y == j)
+				{
+					SetConsoleTextAttribute(mgr->wind.hOut, mainMap[i][j].color | _white);
+					std::cout << mainMap[i][j].appearance[0];
+					SetConsoleTextAttribute(mgr->wind.hOut, _white);
+				}
+				else
+				{
+					SetConsoleTextAttribute(mgr->wind.hOut, mainMap[i][j].color | mainMap[i][j].back_color);
+					std::cout << mainMap[i][j].appearance[0];
+					SetConsoleTextAttribute(mgr->wind.hOut, _white);
+				}
+
 			}
 			else if (j == -1 || i == -1 || i == size.x || j == size.y)std::cout << "@";
 			else std::cout << " ";
@@ -23,6 +44,36 @@ void MapManager::Draw(GameManager *mgr)
 		}
 		w++;
 	}
+	if (highlighted)
+	{
+		mgr->wind.gotoxy(7, 52);
+		SetConsoleTextAttribute(mgr->wind.hOut, currentTile.color | currentTile.back_color);
+		std::cout << currentTile.appearance[0];
+		SetConsoleTextAttribute(mgr->wind.hOut, _white);
+		mgr->wind.gotoxy(10, 52);
+		std::cout << "Nazwa: " << currentTile.name << "     ";
+		mgr->wind.gotoxy(10, 53);
+		std::cout <<"x: "<< currentTile.pos.x << "     ";
+		mgr->wind.gotoxy(10, 54);
+		std::cout <<"y: "<< currentTile.pos.y << "     ";
+		mgr->wind.gotoxy(10, 55);
+		if(currentTile.owning == nullptr)std::cout << "Naleznosc: Nikt" << "     ";
+		else
+		std::cout << "Naleznosc: " << currentTile.owning->name << "     ";
+		mgr->wind.gotoxy(10, 56);
+		if (currentTile.bonus.name == names::empty)std::cout << "Bonus: Brak" << "              ";
+		else
+			std::cout << "Bonus: " << currentTile.bonus.name << "            ";
+		mgr->wind.gotoxy(10, 57);
+		std::cout << "----------------";
+		mgr->wind.gotoxy(10, 58);
+		std::cout << "Urodzaj: " << currentTile.soil << "    ";
+		mgr->wind.gotoxy(10, 59);
+		std::cout << "Koszt drogi: " << currentTile.travelCost << "   ";
+
+
+	}
+
 }
 
 void MapManager::DrawTest(GameManager* mgr)
@@ -55,12 +106,12 @@ void MapManager::LoadMap(std::string filename)
 	size.x = mainmapimage.getSize().x;
 	size.y = mainmapimage.getSize().y;
 
-	for (int i = 0; i < size.x; i++)
+	for (int i = 0; i <= size.x; i++)
 	{
 		std::vector<Tile> row;
 		mainMap.push_back(row);
 
-		for (int j = 0; j < size.y; j++)
+		for (int j = 0; j <= size.y; j++)
 		{
 			Tile* buff = new Tile(_green, names::plains, Vector2(i, j), &map::grassch);
 			mainMap[i].push_back(*buff);
@@ -68,10 +119,12 @@ void MapManager::LoadMap(std::string filename)
 		}
 	}
 
+	mainMap[size.x][size.y].Reset(_black, "Brak", Vector2(size.x, size.y), &map::null, 0);
+
 	std::cout << "Map loaded";
 	std::cout << size.x << "/" << size.y;
 
-
+	//reading colors from bitmap//
 	for (int i = 0; i < size.x; i++)
 	{
 		for (int j = 0; j < size.y; j++)
@@ -103,6 +156,7 @@ void MapManager::LoadMap(std::string filename)
 		}
 	}
 
+	//forest generator 1//
 	for (int i = 0; i < mapSettings::forestSeeds; i++)
 	{
 		Vector2 los;
@@ -132,6 +186,7 @@ void MapManager::LoadMap(std::string filename)
 		}
 	}
 
+	//forest generation 2//
 	for (int i = 0; i < mapSettings::forestSeeds*3; i++)
 	{
 		Vector2 los;
@@ -142,8 +197,41 @@ void MapManager::LoadMap(std::string filename)
 		mainMap[los.x][los.y].Reset(_green_, names::forest, Vector2(los.x, los.y), &map::forestch);
 	}
 
-	system("CLS");
+	//adding bonus tiles//
+	for (int i = 0; i < size.x; i++)
+	{
+		for (int j = 0; j < size.y; j++)
+		{
+			if (mainMap[i][j].name == names::plains)
+				if (rand() % 100 > 95)
+				{
+					mainMap[i][j].bonus = BonusTile(bonusFunc::wheatWhenMet, bonusFunc::wheatPerTurn, names::additionals::wheat, Vector2(i, j));
+					mainMap[i][j].appearance = &map::riverch;
+				}
+		}
+	}
 
+	//remaping soil and travel cost lvl//
+	for (int i = 0; i < size.x; i++)
+	{
+		for (int j = 0; j < size.y; j++)
+		{
+			if (mainMap[i][j].name == names::forest || mainMap[i][j].name == names::mountains)
+			{
+				mainMap[i][j].soil -= 1;
+				mainMap[i][j].travelCost += 2;
+			}
+			if (mainMap[i][j].name == names::mountains)mainMap[i][j].travelCost = map::maxTravelCost;
+			if (mainMap[i][j].name == names::water || mainMap[i][j].name == names::river)
+			{
+				mainMap[i][j].soil -= 1;
+				mainMap[i][j].travelCost += 3;
+			}
+		}
+	}
+	
+	system("CLS");
+	currentTile = mainMap[size.x][size.y];
 }
 
 
@@ -162,3 +250,4 @@ int MapManager::CheckNeigh(std::string input, std::string checking, Vector2 pos)
 	}
 	return a;
 }
+
