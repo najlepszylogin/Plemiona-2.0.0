@@ -5,10 +5,16 @@ na mapie :
 
  stolica
  miasta inne
- osadnicy
+ osadnicy (wybor proporcji ludnosci)
  jednostki l¹dowe
  jednostki morskie
  robotnicy
+ kap³an (zwieksza religjnosc gminy)
+ admira³ (zwieksza militarnosc gminy)
+ urzêdnik (zwieksza gospodarczosc gminy)
+ dyplomata (wysy³any do panstw-miast)
+
+
  handlarz
  budowa tartakow
 budowa farm
@@ -19,7 +25,7 @@ budowa farm
 ruch jednostkami
  operacje jednostek
  barbarzyncy
-mgla wojny 
+-+ mgla wojny 
 mapa zasiegu miast (zalezy od wiary)
 
 stolica:
@@ -77,6 +83,30 @@ stolica:
 	 ludnosc(+obrona miasta, x za kazda budowle poza miastem, +produkcja)
 	obrona 
 	max zolnierzy
+	poziom miast
+	wybieranie punktow produkcji (jak w cywilizacji)
+	
+	podzia³ ludnosci (ch³opi, mieszczanie, arystokraci - wp³ywa to na produkcje surocwów, jednostek itp)
+	podzia³ ludnosci (ekonomiœci, duchowni, miliratyœci - wp³ywa na traity w regionie [musi byc równowaga jesli nie ma sie bonusów])
+	(do rozwiniêcia)
+
+
+	zamieszki
+	choroby
+	armie spozywaja jedzenie (trezba im dac na poczatku x jedzenia i potem dostarczac z miast lub moga miec w armii robotnikow zeby nie martwic sie o to)
+	bezrobocie (niezadowolenie jesli za duzo)
+	lojalnoœæ (zalezne od podzia³u ludnosci i praw dla nich ustawnowionych)
+	prawa dla danych grup spo³ecznych
+	niewolnictwo
+	wielcy ludzie
+
+	regiony (tereny wokó³ miast beda regionami, dla kazdego mozna ustanawiac jakies tam prawa, do regoinu mozna uzyc kilku miast [max 2 miasta, z technologiami wiecej itp])
+	gminy (tereny tylko wokol jednego miasta)
+	budowa dróg (niewidoczne na mapie, ale widoczne na info terenu)(widoczne na widoku mapy dróg)
+	system podatkow
+
+
+
 
 	osady:
 	(((DO PRZEBUDOWY)))
@@ -140,8 +170,8 @@ walka
 oblezenie
  rozbudowa budowli 
 cele: kulturowy(cud), religijny(x wiary), wojskowy(podbic), polityczny (suwerennosc kilku wiosek)
- mapa teretorialna
- 4 graczy 
+ -+ mapa teretorialna
+ -+ 4 graczy 
 jednostki :
 	'pikinier(wymaga: koszary 1)(1,5x wiecej taranom)
 	'³ucznik (koszary 2)(atak nie powoduje kontry
@@ -157,6 +187,7 @@ morskie:
 	'galera
 	'kawalera
 	'liniowiec
+	'handlowiec
 	'kuter
 
 	 zamiana wiary na zloto
@@ -164,16 +195,48 @@ morskie:
 	 budynki wplywaja na najblizsza miejscowosc
 	 zapis
 	 wczytanie
-	 inna mapa
+	 inne mapy
 	 menu z logo
 
 	 zywnosc (produkcja jednostek oraz zywienie ludnosci i rozwoj miasta)
 	 kamien (budowa buydnków oraz jednostek)
 	 drewno (budowa buydnków oraz jednostek)
-	 zloto (budowa jednostek i budynkow, kupowanie jednostek, kupowanie terenu, handel)
+	 metal (budowa buydnków oraz jednostek)
+	 produkcja (czas budowy budynków)
+	 dobra luksusowe (zadowolenie miasta)
+	 /\ te surowce osobno dla kazdego regoinu
+
+
+	 zloto (utrzymanie jednostek i budynkow, kupowanie jednostek, kupowanie terenu, handel)
 	 wiara (wymiana na z³oto, powiekszanie teretorium automatyczne)
 	 nauka (technologie)
 
-	 narrator ktory opowiada wydarzenia na mapie podczas tury
+	 punkty dowodzenia (ilosc ruchow jakie mozna wykonac danej tury)
+	 punkty dyplomacji (rozmowa z panstwami-miastami, handel z innymi graczami)
+	 punkty wp³ywów (¿¹dania od panstw-miast, budowle specjalne, tworzenie armii, budowa osadników)
+	 punkty w³adzy (zmiana ustrojów w panstwie)
+
+	 ustroje
+
+
+	 -+ narrator ktory opowiada wydarzenia na mapie podczas tury
+	 civilization builder 
+	 edytor map
+
+
+	 SILNIKOWE:
+
+	 Dzwieki manager
+	 AI
+	 Multiplayer online
+	 -+ wyswietlanie innych map
+	 kody (debug)
+	 zapisywanie w plikach dat
+	 event systems
+	 dialog box
+	
+	 ++progress bar
+	 ++procent string
+
 
 	*/

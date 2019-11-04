@@ -13,9 +13,12 @@ namespace names
 	inline std::string forest = "Las";
 	inline std::string village = "Wioska";
 	inline std::string capital = "Stolica";
+	inline std::string bush = "Krzaki";
+	inline std::string stone = "Kamienie";
+	inline std::string road = "Droga";
 
 	inline std::string cursorxpos = "Kursor X=";
-	inline std::string cursorypos = "Y=";
+	inline std::string cursorypos = "Kursor Y=";
 
 	namespace additionals
 	{

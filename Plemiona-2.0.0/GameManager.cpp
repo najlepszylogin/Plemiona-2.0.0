@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include "UI.h"
+#include "AssetLoaders.h"
 
 using namespace std;
 using namespace map;
@@ -17,8 +18,18 @@ void GameManager::LoadEngine()
 	}
 	//std::cin.sync();
 	
+	LoadMusic();
+
 	system("CLS");
 	std::cout << "Engine Loaded";
+	//other loader
+	UI::strings::maxNarratorPage.var = &game.players[Game::currentPlayer].narrator.pages;
+	UI::strings::cursorPositionx.var = &game.players[Game::currentPlayer].mapPos.x;
+	UI::strings::cursorPositiony.var = &game.players[Game::currentPlayer].mapPos.y;
+
+	Game::currentMap = &UI::controls::mainMapBtn;
+	Game::currentMap->ChangeState();
+	UI::mainMapFunc(this);
 	
 }
 
@@ -115,6 +126,66 @@ void GameManager::DrawRect(Box& shape)
 	if (shape.menu == Game::menu)
 	{
 		DrawRect(shape.pos, shape.size, shape.type, shape.color);
+	}
+}
+
+void GameManager::DrawTextBox(TextBox& shape)
+{
+	wind.gotoxy(shape.pos.x, shape.pos.y);
+	SetConsoleTextAttribute(wind.hOut, shape.color);
+
+
+		wind.gotoxy(shape.pos.x, shape.pos.y);
+		std::cout << char(201);
+		wind.gotoxy(shape.pos.x + shape.size.x, shape.pos.y + shape.size.y);
+		std::cout << char(188);
+		wind.gotoxy(shape.pos.x, shape.pos.y + shape.size.y);
+		std::cout << char(200);
+		wind.gotoxy(shape.pos.x + shape.size.x, shape.pos.y);
+		std::cout << char(187);
+		for (int i = 1; i < shape.size.x; i++)
+		{
+			wind.gotoxy(shape.pos.x + i, shape.pos.y);
+			std::cout << char(205);
+		}
+		for (int i = 1; i < shape.size.x; i++)
+		{
+			wind.gotoxy(shape.pos.x + i, shape.pos.y + shape.size.y);
+			std::cout << char(205);
+		}
+		for (int i = 1; i < shape.size.y; i++)
+		{
+			wind.gotoxy(shape.pos.x, shape.pos.y + i);
+			std::cout << char(186);
+		}
+		for (int i = 1; i < shape.size.y; i++)
+		{
+			wind.gotoxy(shape.pos.x + shape.size.x, shape.pos.y + i);
+			std::cout << char(186);
+		}
+
+		wind.gotoxy(shape.pos.x + 2, shape.pos.y);
+		std::cout << shape.text;
+
+}
+
+void GameManager::DrawLight(Light& lg)
+{
+	if (lg.menu == Game::menu)
+	{
+		wind.gotoxy(lg.pos);
+
+		if (lg.active == true)
+		{
+			SetConsoleTextAttribute(wind.hOut, lg.color);
+			for (int i = 0; i < lg.size; i++)std::cout << char(176);
+		}
+		else
+		{
+			SetConsoleTextAttribute(wind.hOut, _gray);
+			for (int i = 0; i < lg.size; i++)std::cout << char(176);
+		}
+
 	}
 }
 
@@ -254,6 +325,41 @@ void GameManager::WriteVarString(ClickableVarString& str)
 	}
 
 }
+void GameManager::WriteVarString(PercentString& str)
+{
+	if (str.menu == Game::menu)
+	{
+		SetConsoleTextAttribute(wind.hOut, str.color);
+		wind.gotoxy(str.pos);
+		std::cout << str.str;
+		SetConsoleTextAttribute(wind.hOut, str.color2);
+		std::cout << *str.var << "%    ";
+		SetConsoleTextAttribute(wind.hOut, _white);
+	}
+}
+
+void GameManager::DrawProgressBar(ProgressBar& bar)
+{
+	if (bar.menu == Game::menu)
+	{
+		wind.gotoxy(bar.pos);
+		for (int i = 0; i < bar.size; i++)
+		{
+			if (*bar.var > (i * bar.div))
+			{
+				SetConsoleTextAttribute(wind.hOut, _green);
+				std::cout << char(176);
+				SetConsoleTextAttribute(wind.hOut, _white);
+			}
+			else
+			{
+				SetConsoleTextAttribute(wind.hOut, _gray);
+				std::cout << char(176);
+				SetConsoleTextAttribute(wind.hOut, _white);
+			}
+		}
+	}
+}
 
 
 
@@ -278,7 +384,7 @@ bool GameManager::Update()
 					std::cout << GetMousePos() << "        ";
 				}
 				
-				MainMap.currentTile = MainMap.mainMap[MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).x][MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).y];
+				MainMap.currentTile = &MainMap.mainMap[MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).x][MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).y];
 				MainMap.Highlight();
 				FlushConsoleInputBuffer(wind.hin);
 				return true;
@@ -286,13 +392,14 @@ bool GameManager::Update()
 			if (wind.InputRecord.Event.MouseEvent.dwButtonState == RIGHTMOST_BUTTON_PRESSED)
 			{
 				MainMap.Unlight();
-				MainMap.currentTile = MainMap.mainMap[MainMap.size.x][MainMap.size.y];
+				MainMap.currentTile = &MainMap.mainMap[MainMap.size.x][MainMap.size.y];
 				system("CLS");
 				wind.Init();
 				if (mainSettings::showPos)
 				{
 					wind.gotoxy(1, 73);
 					std::cout << GetMousePos() << "        ";
+					
 				}
 				return true;
 			}
@@ -303,6 +410,11 @@ bool GameManager::Update()
 			if (wind.InputRecord.Event.KeyEvent.uChar.AsciiChar == 'a' && players[Game::currentPlayer].mapPos.x > 4)players[Game::currentPlayer].mapPos.x-=2;
 			if (wind.InputRecord.Event.KeyEvent.uChar.AsciiChar == 's' && players[Game::currentPlayer].mapPos.y < MainMap.size.y - 4)players[Game::currentPlayer].mapPos.y+=2;
 			if (wind.InputRecord.Event.KeyEvent.uChar.AsciiChar == 'd' && players[Game::currentPlayer].mapPos.x < MainMap.size.x - 4)players[Game::currentPlayer].mapPos.x+=2;
+			if (wind.InputRecord.Event.KeyEvent.uChar.AsciiChar == 'q')
+			{
+				for (int i = MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).x - 2; i <= MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).x + 2; i++)
+					for (int j = MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).y - 2; j <= MouseToMapPos(Vector2(wind.coord.X, wind.coord.Y)).y + 2; j++)MainMap.mainMap[i][j].owning = &players[Game::currentPlayer];
+			}
 			return true;
 		}
 		FlushConsoleInputBuffer(wind.hin);
@@ -323,13 +435,13 @@ bool GameManager::CheckBtn(ClickableString& str)
 	{
 		if (MouseClickPos.x >= str.pos.x && MouseClickPos.y >= str.pos.y && MouseClickPos.x < (str.str.size() + str.pos.x) && MouseClickPos.y <= str.pos.y)
 		{
-			str.ChangeState();
+			//str.ChangeState();
 			MouseClickPos.x = 0;
 			MouseClickPos.y = 0;
 			return true;
 
 		}
-		str.Reset();
+		//str.Reset();
 		return false;
 	}
 	return false;
@@ -378,11 +490,20 @@ void GameManager::DrawAllStr()
 		for (int i = 0; i < VariableString::variablestrings.size(); i++)WriteVarString(*VariableString::variablestrings[i]);
 		for (int i = 0; i < ClickableVarString::clickablevarstrings.size(); i++)WriteVarString(*ClickableVarString::clickablevarstrings[i]);
 		for (int i = 0; i < ClickableBackButton::clickablestrings.size(); i++)WriteString(*ClickableBackButton::clickablestrings[i]);
+		for (int i = 0; i < PercentString::variablestrings.size(); i++)WriteVarString(*PercentString::variablestrings[i]);
 }
 
 void GameManager::DrawAllBoxes()
 {
+	for (int i = 0; i < TextBox::boxes.size(); i++)DrawTextBox(*TextBox::boxes[i]);
 	for (int i = 0; i < Box::boxes.size(); i++)DrawRect(*Box::boxes[i]);
+	
+}
+
+void GameManager::DrawAllItems()
+{
+	for (int i = 0; i < ProgressBar::bars.size(); i++)DrawProgressBar(*ProgressBar::bars[i]);
+	for (int i = 0; i < Light::lights.size(); i++)DrawLight(*Light::lights[i]);
 }
 
 void GameManager::CheckAllBtns()
@@ -441,7 +562,54 @@ void GameManager::AddPlayer(Player& pl)
 	players.push_back(pl);
 }
 
+void GameManager::OpenDialogBox(DialogBoxC& box)
+{
+	Game::dialogBoxOpened = true;
+	currentDialogBox = &box;
+}
 
+void GameManager::CloseDialogBox()
+{
+	Game::dialogBoxOpened = false;
+	currentDialogBox = nullptr;
+}
+
+void GameManager::DrawDialogBox()
+{
+	DrawRect(50, 50, 50, 40, 1, _gray);
+	wind.gotoxy(51,54);
+	int h = 0;
+
+	for (int i = 0; i < 90; i++)
+	{
+		for (int j = 0; j <= 99; j++) {
+			if (j == 99 && currentDialogBox->str[h] != ' ' && h < currentDialogBox->str.size())
+			{
+				int g = 0;
+				while (currentDialogBox->str[h] != ' ')
+				{
+
+					wind.gotoxy(currentDialogBox->pos.x + currentDialogBox->size.x - g - 1, currentDialogBox->pos.y + i);
+					g++;
+					std::cout << ' ';
+					h--;
+				}
+				wind.gotoxy(currentDialogBox->pos.x, currentDialogBox->pos.y + i + 1);
+				break;
+			}
+			if (h < currentDialogBox->str.size())
+			{
+				cout << currentDialogBox->str[h];
+				h++;
+			}
+			else
+				std::cout << ' ';
+		}
+		wind.gotoxy(currentDialogBox->pos.x, currentDialogBox->pos.y + i + 1);
+	}
+	SetConsoleTextAttribute(wind.hOut, _white);
+	
+}
 
 bool GameManager::CheckNames(std::string& str)
 {
@@ -523,9 +691,9 @@ Vector2 GameManager::MouseToMapPos(Vector2 pos)
 	{
 		if(MainMap.mainMap[players[Game::currentPlayer].mapPos.x + MouseClickPos.x - 23][players[Game::currentPlayer].mapPos.y + MouseClickPos.y - 23].open[Game::currentPlayer])
 		return Vector2(players[Game::currentPlayer].mapPos.x + MouseClickPos.x - 23, players[Game::currentPlayer].mapPos.y + MouseClickPos.y - 23);
-		else return MainMap.currentTile.pos;
+		else return MainMap.currentTile->pos;
 	}
-	else return MainMap.currentTile.pos;
+	else return MainMap.currentTile->pos;
 	
 }
 
@@ -564,7 +732,7 @@ void GameManager::InitPlayers(int x, std::string name[], int colors[])
 			}
 			
 			AddPlayer(name[i], colors[i], i, poss);
-			MainMap.currentTile = MainMap.mainMap[poss.x][poss.y];
+			MainMap.currentTile = &MainMap.mainMap[poss.x][poss.y];
 			continue;
 		}
 		else
@@ -592,5 +760,12 @@ void GameManager::NextPlayer()
 	
 	if (Game::currentPlayer == playersSettings::playersNum)Game::currentPlayer = 0;
 	else Game::currentPlayer++;
+	//there is need to switch shown text that depends on Game::currentPlayer
 	UI::strings::narratorText.SetText(players[Game::currentPlayer].narrator.info[0]);
+	UI::strings::maxNarratorPage.var = &game.players[Game::currentPlayer].narrator.pages;
+	UI::strings::cursorPositionx.var = &game.players[Game::currentPlayer].mapPos.x;
+	UI::strings::cursorPositiony.var = &game.players[Game::currentPlayer].mapPos.y;
+	Game::currentMap = &UI::controls::mainMapBtn;
+	Game::currentMap->ChangeState();
+	UI::mainMapFunc(this);
 }

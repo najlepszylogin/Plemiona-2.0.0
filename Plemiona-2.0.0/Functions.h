@@ -16,7 +16,7 @@ namespace func
 		Game::menu = 1;
 		system("CLS");
 		mgr->wind.Init();
-		
+		game.DrawAllBoxes();
 
 	};
 	inline void openMainMenu(GameManager* mgr)
@@ -24,7 +24,7 @@ namespace func
 		Game::menu = 0;
 		system("CLS");
 		mgr->wind.Init();
-		
+		game.DrawAllBoxes();
 	};
 	inline void mousePosF(GameManager* mgr)
 	{
@@ -33,14 +33,17 @@ namespace func
 			mainSettings::showPos = true;
 		system("CLS");
 		mgr->wind.Init();
+		game.DrawAllBoxes();
 	}
 	inline void musicF(GameManager* mgr)
 	{
 		if (mainSettings::music == true)mainSettings::music = false;
 		else
 			mainSettings::music = true;
+		mgr->music.Stop();
 		system("CLS");
 		mgr->wind.Init();
+		game.DrawAllBoxes();
 	}
 	inline void soundsF(GameManager* mgr)
 	{
@@ -49,6 +52,7 @@ namespace func
 			mainSettings::sounds = true;
 		system("CLS");
 		mgr->wind.Init();
+		game.DrawAllBoxes();
 	}
 
 	inline void backToHome(GameManager* mgr)
@@ -56,6 +60,7 @@ namespace func
 		mgr->players[Game::currentPlayer].mapPos = mgr->players[Game::currentPlayer].pos;
 		system("CLS");
 		mgr->wind.Init();
+		game.DrawAllBoxes();
 	}
 	inline void up(GameManager* mgr)
 	{
@@ -80,6 +85,26 @@ namespace func
 		if (mgr->players[Game::currentPlayer].mapPos.x < MainMap.size.x - 1)
 		mgr->players[Game::currentPlayer].mapPos.x++;
 		
+	}
+	inline void VolumeMusicPlus(GameManager* mgr)
+	{
+		if (mainSettings::musicVol < 100)mainSettings::musicVol += 10;
+		mgr->ChangeVolume(mainSettings::musicVol);
+	}
+	inline void VolumeMusicMinus(GameManager* mgr)
+	{
+		if (mainSettings::musicVol > 0)mainSettings::musicVol -= 10;
+		mgr->ChangeVolume(mainSettings::musicVol);
+	}
+	inline void VolumeSoundPlus(GameManager* mgr)
+	{
+		if (mainSettings::soundsVol < 100)mainSettings::soundsVol += 10;
+		mgr->ChangeVolume(mainSettings::soundsVol);
+	}
+	inline void VolumeSoundMinus(GameManager* mgr)
+	{
+		if (mainSettings::soundsVol > 0)mainSettings::soundsVol -= 10;
+		mgr->ChangeVolume(mainSettings::soundsVol);
 	}
 
 

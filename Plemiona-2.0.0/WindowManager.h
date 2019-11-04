@@ -25,7 +25,7 @@ public:
 	CONSOLE_CURSOR_INFO cci;
 	PCONSOLE_SCREEN_BUFFER_INFO inf;
 
-	
+
 
 
 
@@ -75,6 +75,17 @@ public:
 		SetConsoleCursorInfo(hout, &cci);
 		SetConsoleMode(hin, ENABLE_PROCESSED_INPUT | ENABLE_MOUSE_INPUT);
 		ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
+		
+		CONSOLE_FONT_INFOEX cfi;
+		cfi.cbSize = sizeof(cfi);
+		cfi.nFont = 0;
+		cfi.dwFontSize.X = 0;                   // Width of each character in the font
+		cfi.dwFontSize.Y = 25;                  // Height
+		cfi.FontFamily = FF_DONTCARE;
+		cfi.FontWeight = FW_NORMAL;
+		//wcscpy_s(cfi.FaceName, L"Consolas"); // Choose your font
+		SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+
 		
 	}
 

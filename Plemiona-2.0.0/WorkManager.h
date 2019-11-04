@@ -1,12 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+#include <SFML/Main.hpp>
+#include <SFML/System.hpp>
 #include <time.h>
 #include <iostream>
 #include <conio.h>
-#include <cstdlib>
-#include <stdlib.h>
 #include <cstdio>
 #include <ctime>
 #include <windows.h>

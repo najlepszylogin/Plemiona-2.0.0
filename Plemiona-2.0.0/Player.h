@@ -11,13 +11,15 @@ public:
 	int id;
 	Vector2 pos;
 	Vector2 mapPos;
+	Vector2 capitalMapPos;
 	int color;
 	std::string name;
-	int food;
-	int stone;
-	int money;
-	int faith;
-	int knowledge;
+	std::string password;
+	double food;
+	double stone;
+	double money;
+	double faith;
+	double knowledge;
 	Narrator narrator;
 
 	Player(int id, Vector2 pos, int color, std::string nm);

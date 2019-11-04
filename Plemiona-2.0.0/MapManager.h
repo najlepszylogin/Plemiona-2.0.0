@@ -11,7 +11,7 @@
 
 
 class GameManager;
-
+class City;
 
 
 class BonusTile
@@ -22,6 +22,8 @@ public:
 	std::string name;
 	Vector2 pos;
 	bool met;
+	City* city = nullptr;
+
 	~BonusTile() {};
 	BonusTile(void fwMet(GameManager*, Vector2), void fpTurn(GameManager*, Vector2),std::string name, Vector2 posi)
 	{
@@ -57,6 +59,7 @@ public:
 };
 
 inline BonusTile nullbon;
+inline Player neutral(99,0,0,_gray,"Gaja");
 
 class Tile
 {
@@ -68,7 +71,8 @@ public:
 	std::string name;
 	Vector2 pos;
 	char *appearance;
-	Player *owning = nullptr;
+	Player* owning = &neutral;
+
 	bool open[playersSettings::playersNum];
 	bool inSight[playersSettings::playersNum];
 	int soil;
@@ -125,7 +129,7 @@ private:
 	int CheckNeigh(std::string input, std::string checking, Vector2 pos);
 
 public:
-	Tile currentTile;
+	Tile *currentTile = nullptr;
 	Vector2 size;
 	sf::Image mainmapimage;
 	void Draw(GameManager *mgr);
@@ -139,6 +143,25 @@ public:
 };
 
 inline MapManager MainMap;
+
+class CapitalMap : MapManager
+{
+	int water;
+	int mountains;
+public:
+	CapitalMap(int water, int mountains)//0 on water and mountain means that there is no w or m nearby, 1 is up tile and goin with clock 4 times
+	{
+		this->size = *mapSettings::capitalMapSize;
+		this->water = water;
+		this->mountains = mountains;
+		this->GenerateMap();
+	}
+	~CapitalMap() {};
+	void GenerateMap();
+	void Draw(GameManager *mgr);
+};
+
+
 
 
 

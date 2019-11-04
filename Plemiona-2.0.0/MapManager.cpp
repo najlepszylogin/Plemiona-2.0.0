@@ -6,12 +6,14 @@ void MapManager::Draw(GameManager *mgr)
 {
 	int w=4;
 	int h = 4;
+	mgr->wind.gotoxy(18, 2);
+	std::wcout << "MAPA SWIATA";
+
+	//main map
+	if(Game::map_type == 0)
 	for (int i = mgr->players[Game::currentPlayer].mapPos.x - 19; i < mgr->players[Game::currentPlayer].mapPos.x + 19;i++)
 	{
 		h = 4;
-
-		
-
 		for (int j = mgr->players[Game::currentPlayer].mapPos.y - 19; j < mgr->players[Game::currentPlayer].mapPos.y + 19; j++)
 		{
 			
@@ -24,7 +26,7 @@ void MapManager::Draw(GameManager *mgr)
 
 
 
-				if (currentTile.pos.x == i && currentTile.pos.y == j)
+				if (currentTile->pos.x == i && currentTile->pos.y == j)
 				{
 					SetConsoleTextAttribute(mgr->wind.hOut, mainMap[i][j].color | _white);
 					std::cout << mainMap[i][j].appearance[0];
@@ -44,32 +46,70 @@ void MapManager::Draw(GameManager *mgr)
 		}
 		w++;
 	}
+
+	//teretority map
+	if (Game::map_type == 1)
+	for (int i = mgr->players[Game::currentPlayer].mapPos.x - 19; i < mgr->players[Game::currentPlayer].mapPos.x + 19; i++)
+	{
+		h = 4;
+		for (int j = mgr->players[Game::currentPlayer].mapPos.y - 19; j < mgr->players[Game::currentPlayer].mapPos.y + 19; j++)
+		{
+			mgr->wind.gotoxy(w, h);
+			if (j < size.y && j >= 0 && i < size.x && i >= 0 && mainMap[i][j].open[Game::currentPlayer])
+			{
+				//bonuses here
+				if (mainMap[i][j].bonus.met == false && mainMap[i][j].bonus.name != names::empty)mainMap[i][j].bonus.Met(mgr);
+
+
+
+				if (currentTile->pos.x == i && currentTile->pos.y == j)
+				{
+					SetConsoleTextAttribute(mgr->wind.hOut, _black | _black);
+					std::cout << mainMap[i][j].appearance[0];
+					SetConsoleTextAttribute(mgr->wind.hOut, _white);
+				}
+				else
+				{
+					SetConsoleTextAttribute(mgr->wind.hOut, mainMap[i][j].owning->color | mainMap[i][j].owning->color);
+					std::cout << mainMap[i][j].appearance[0];
+					SetConsoleTextAttribute(mgr->wind.hOut, _white);
+				}
+
+			}
+			else if (j == -1 || i == -1 || i == size.x || j == size.y)std::cout << "@";
+			else std::cout << " ";
+			h++;
+		}
+		w++;
+	}
+
+	if(Game::map_type == 1)
 	if (highlighted)
 	{
 		mgr->wind.gotoxy(7, 52);
-		SetConsoleTextAttribute(mgr->wind.hOut, currentTile.color | currentTile.back_color);
-		std::cout << currentTile.appearance[0];
+		SetConsoleTextAttribute(mgr->wind.hOut, currentTile->color | currentTile->back_color);
+		std::cout << currentTile->appearance[0];
 		SetConsoleTextAttribute(mgr->wind.hOut, _white);
 		mgr->wind.gotoxy(10, 52);
-		std::cout << "Nazwa: " << currentTile.name << "     ";
+		std::cout << "Nazwa: " << currentTile->name << "     ";
 		mgr->wind.gotoxy(10, 53);
-		std::cout <<"x: "<< currentTile.pos.x << "     ";
+		std::cout <<"x: "<< currentTile->pos.x << "     ";
 		mgr->wind.gotoxy(10, 54);
-		std::cout <<"y: "<< currentTile.pos.y << "     ";
+		std::cout <<"y: "<< currentTile->pos.y << "     ";
 		mgr->wind.gotoxy(10, 55);
-		if(currentTile.owning == nullptr)std::cout << "Naleznosc: Nikt" << "     ";
+		if(currentTile->owning == nullptr)std::cout << "Naleznosc: Nikt" << "     ";
 		else
-		std::cout << "Naleznosc: " << currentTile.owning->name << "     ";
+		std::cout << "Naleznosc: " << currentTile->owning->name << "     ";
 		mgr->wind.gotoxy(10, 56);
-		if (currentTile.bonus.name == names::empty)std::cout << "Bonus: Brak" << "              ";
+		if (currentTile->bonus.name == names::empty)std::cout << "Bonus: Brak" << "              ";
 		else
-			std::cout << "Bonus: " << currentTile.bonus.name << "            ";
+			std::cout << "Bonus: " << currentTile->bonus.name << "            ";
 		mgr->wind.gotoxy(10, 57);
 		std::cout << "----------------";
 		mgr->wind.gotoxy(10, 58);
-		std::cout << "Urodzaj: " << currentTile.soil << "    ";
+		std::cout << "Urodzaj: " << currentTile->soil << "    ";
 		mgr->wind.gotoxy(10, 59);
-		std::cout << "Koszt drogi: " << currentTile.travelCost << "   ";
+		std::cout << "Koszt Przejscia: " << currentTile->travelCost << "   ";
 
 
 	}
@@ -102,7 +142,7 @@ void MapManager::DrawTest(GameManager* mgr)
 void MapManager::LoadMap(std::string filename)
 {
 	if(!mainmapimage.loadFromFile("Assets/"+filename))std::cout << "Map not loaded";
-
+	
 	size.x = mainmapimage.getSize().x;
 	size.y = mainmapimage.getSize().y;
 
@@ -115,6 +155,7 @@ void MapManager::LoadMap(std::string filename)
 		{
 			Tile* buff = new Tile(_green, names::plains, Vector2(i, j), &map::grassch);
 			mainMap[i].push_back(*buff);
+			
 			delete buff;
 		}
 	}
@@ -231,7 +272,9 @@ void MapManager::LoadMap(std::string filename)
 	}
 	
 	system("CLS");
-	currentTile = mainMap[size.x][size.y];
+	currentTile = &mainMap[size.x][size.y];
+	//std::cout << size.x << "/" << size.y;
+	//_getch();
 }
 
 

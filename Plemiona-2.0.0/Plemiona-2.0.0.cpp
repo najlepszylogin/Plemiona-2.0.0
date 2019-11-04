@@ -6,6 +6,7 @@
 #include "SettingsManager.h"
 #include "Names.h"
 #include "VariableManager.h"
+#include "AssetLoaders.h"
 
 
 
@@ -13,7 +14,7 @@
 int main()
 {
 	
-	
+	game.LoadEngine();
 	std::cout << " - Game Loaded";
 	system("CLS");
 
@@ -26,20 +27,26 @@ int main()
 	game.players[Game::currentPlayer].narrator.AddInfo("Dostales 200 sztuk drewna gosciu!");
 	game.players[Game::currentPlayer].narrator.AddInfo("Dostales 200 sztuk kamienia gosciu!");
 	UI::strings::narratorText.SetText(game.players[Game::currentPlayer].narrator.info[0]);
+	
+	
 	//
-
+	game.DrawAllBoxes();
 
 	do
 	{
 		game.Update2();
-
+		//game.wind.gotoxy(100, 50);
+		//std::cout << Game::map_type;
+		
 		if (game.Update())
 		{
-			game.CheckAllBtns();
-			game.DrawAllBoxes();
-			game.DrawAllStr();
 			if (Game::menu == 0)
 				game.UpdateMap();
+			game.CheckAllBtns();
+			game.DrawAllItems();
+			game.DrawAllStr();
+			
+			game.music.PlaySong(1);
 			game.wind.cls();
 			
 		}

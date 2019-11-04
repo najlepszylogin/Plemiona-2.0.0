@@ -9,7 +9,7 @@ Player::Player(int id, int x, int y, int color, std::string nm)
 	this->color = color;
 	mapPos = pos;
 	name = nm;
-	
+	capitalMapPos = Vector2(20, 20);
 	
 }
 Player::Player(int id, Vector2 pos, int color, std::string nm)
@@ -19,4 +19,5 @@ Player::Player(int id, Vector2 pos, int color, std::string nm)
 	this->color = color;
 	mapPos = pos;
 	name = nm;
+	capitalMapPos = Vector2(20, 20);
 }

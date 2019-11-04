@@ -92,6 +92,7 @@ public:
 	int color;
 	int color2;
 	double *var;
+	
 	static std::vector<VariableString*> variablestrings;
 	int menu;
 
@@ -119,6 +120,7 @@ public:
 		this->menu = menu;
 		variablestrings.push_back(this);
 	}
+
 	~VariableString() {};
 };
 
@@ -174,14 +176,12 @@ public:
 		{
 			clicked = true;
 			color = _green;
-			
 			return;
 		}
 		if (clicked == true)
 		{
 			clicked = false;
 			color = def_color;
-			
 			return;
 		}
 	}
@@ -351,6 +351,46 @@ public:
 	}
 };
 
+class PercentString
+{
+public:
+	std::string str;
+	Vector2 pos;
+	int color;
+	int color2;
+	double* var;
+
+	static std::vector<PercentString*> variablestrings;
+	int menu;
+
+
+	PercentString(Vector2 position, double& variable, std::string str, int menu = 0, int color = _white, int color2 = _white)
+	{
+		this->str = str;
+		this->color = color;
+		pos = position;
+		var = &variable;
+		this->color2 = color2;
+
+		this->menu = menu;
+		variablestrings.push_back(this);
+	}
+	PercentString(int x, int y, double& variable, std::string str, int menu = 0, int color = _white, int color2 = _white)
+	{
+		pos.x = x;
+		pos.y = y;
+		this->str = str;
+		this->color = color;
+		var = &variable;
+		this->color2 = color2;
+
+		this->menu = menu;
+		variablestrings.push_back(this);
+	}
+
+	~PercentString() {};
+};
+
 
 
 
@@ -360,6 +400,7 @@ inline std::vector<StringBox*> StringBox::stringboxes;
 inline std::vector<ClickableString*> ClickableString::clickablestrings;
 inline std::vector<ClickableVarString*> ClickableVarString::clickablevarstrings;
 inline std::vector<ClickableBackButton*>ClickableBackButton::clickablestrings;
+inline std::vector<PercentString*>PercentString::variablestrings;
 
 
 #endif STRINGMGR_

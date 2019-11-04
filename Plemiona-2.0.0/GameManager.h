@@ -8,10 +8,12 @@
 #include "MapManager.h"
 #include "Defines.h"
 #include "Player.h"
+#include "City.h"
 #include "VariableManager.h"
 #include "SettingsManager.h"
 #include "Names.h"
-
+#include "MusicManager.h"
+#include "SoundManager.h"
 
 
 
@@ -25,9 +27,11 @@ public:
 	GameManager();
 
 	Window wind;
+	MusicManager music;
+	
 	sf::Clock buttonsTimer;
 	std::vector<Player> players;
-	
+	sf::Clock MusicTime;
 
 	void LoadEngine();
 	void InitPlayers(int x, std::string name[], int colors[]);
@@ -38,6 +42,8 @@ public:
 	void DrawRect(int x, int y, int width, int height, int type = 0, int color = _white);
 	void DrawRect(Vector2& position, Vector2& size, int type = 0, int color = _white);
 	void DrawRect(Box& shape);
+	void DrawTextBox(TextBox& shape);
+	void DrawProgressBar(ProgressBar& bar);
 	void WriteString(String& str);
 	void WriteString(ClickableString& str);
 	void WriteString(Vector2& pos, std::string& str, int color = _white);
@@ -45,9 +51,19 @@ public:
 	void WriteString(Vector2& pos, Vector2& size, std::string& str, int color = _white);
 	void WriteString(ClickableBackButton& str);
 	void WriteVarString(VariableString& str);
+	void WriteVarString(PercentString& str);
 	void WriteVarString(ClickableVarString& str);
 	void DrawAllStr();
 	void DrawAllBoxes();
+	void DrawLight(Light& lg);
+	void DrawAllItems();
+	
+	
+	//info and dialog boxes
+	void OpenDialogBox(DialogBoxC& box);
+	void CloseDialogBox();
+	void DrawDialogBox();
+	DialogBoxC* currentDialogBox;
 
 	//updates - important//
 	bool Update();
@@ -77,12 +93,16 @@ public:
 	//mechanics
 	void NextPlayer();
 	void NextTurn();
+
+	//sounds and music
+	sf::Music songs[20];
+	sf::Sound sounds[200];
+	void ChangeVolume(double& vol) { for (int i = 0; i < 20; i++)songs[i].setVolume(vol); };
 };
 
 inline GameManager game;
 
-inline VariableString cursorPositionx(23, 45, game.players[Game::currentPlayer].mapPos.x, "Kursor X: ", 0, 15, 15);
-inline VariableString cursorPositiony(23, 47, game.players[Game::currentPlayer].mapPos.y, "Kursor Y: ", 0, 15,15);
+
 
 inline void RedrawAll(GameManager* mgr)
 {
