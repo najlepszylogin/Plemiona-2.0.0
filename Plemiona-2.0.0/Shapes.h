@@ -1,11 +1,9 @@
 #pragma once
-
-#include "Vector2.h"
-#include "Defines.h"
-#include <vector>
-
 #ifndef SHAPES_
 #define SHAPES_
+
+#include "Vector2.h"
+
 
 class Box
 {

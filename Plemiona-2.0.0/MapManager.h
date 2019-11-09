@@ -3,11 +3,7 @@
 #ifndef MAPMGR_
 #define MAPMGR_
 #include "GameManager.h"
-#include "Defines.h"
-#include "Player.h"
-#include "SettingsManager.h"
-#include "VariableManager.h"
-#include "Names.h"
+
 
 
 class GameManager;
@@ -61,12 +57,31 @@ public:
 inline BonusTile nullbon;
 inline Player neutral(99,0,0,_gray,"Gaja");
 
+enum income_
+{
+	gold = 0,
+	wood = 1,
+	stone =2,
+	iron = 3,
+	food = 4,
+	production = 5,
+	luxuries = 6,
+	faith = 7,
+	knowledge = 8
+};
+
 class Tile
 {
 private:
 
 public:
+	income_ incomes;
 	int color;
+	double income[8];
+
+	int region;
+	int gmina;
+
 	int back_color = _black;
 	std::string name;
 	Vector2 pos;

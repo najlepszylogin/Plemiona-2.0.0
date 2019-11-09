@@ -1,6 +1,7 @@
 #pragma once
-#include <iostream>
-
+#ifndef SETT__
+#define SETT__
+#include "Vector2.h"
 inline std::string mapFilename = "map.bmp";
 
 namespace times
@@ -21,8 +22,8 @@ namespace mainSettings
 	inline double showPos = true;
 	inline double music = false;
 	inline double sounds = true;
-	inline double musicVol = 100;
-	inline double soundsVol = 100;
+	inline double musicVol = 60;
+	inline double soundsVol = 50;
 }
 
 namespace mapSettings
@@ -33,3 +34,5 @@ namespace mapSettings
 	inline Vector2 CapitalMapSizeBig = Vector2(120, 120);
 	inline Vector2* capitalMapSize = &CapitalMapSizeMedium;
 }
+
+#endif SETT__

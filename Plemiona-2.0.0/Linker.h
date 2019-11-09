@@ -8,20 +8,18 @@
 #include <conio.h>
 #include <cstdio>
 #include <ctime>
+#include <chrono> 
 #include <windows.h>
 #include <fstream>
 #include <string>
 #include "MMSystem.h"
 #include <cmath>
+#include <math.h>
 
 
-
-#include "Vector2.h"
+#include "Defines.h"
 #include "Shapes.h"
+#include "Names.h"
 #include "StringManager.h"
-#include "WindowManager.h"
-
-
-
-
-
+#include "SettingsManager.h"
+#include "VariableManager.h"

@@ -1,10 +1,7 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include "Vector2.h"
+
 #ifndef STRINGMGR_
 #define STRINGMGR_
-
 
 
 class GameManager;
@@ -351,6 +348,74 @@ public:
 	}
 };
 
+class Button
+{
+public:
+	char str;
+	Vector2 pos;
+	int color;
+	bool clicked = false;
+	int def_color;
+	static std::vector<Button*> buttons;
+	void (*Action)(GameManager*);
+	int menu;
+	Button()
+	{
+		str = ' ';
+		color = _white;
+		pos = Vector2(0, 0);
+		def_color = _white;
+		buttons.push_back(this);
+		Action = nullptr;
+		menu = 0;
+	}
+	Button(Vector2 position, char str, void f(GameManager*), int menu = 0, int color = _white)
+	{
+		this->str = str;
+		this->color = color;
+		pos = position;
+		def_color = color;
+		buttons.push_back(this);
+		Action = *f;
+		this->menu = menu;
+	}
+	Button(int x, int y, char str, void f(GameManager*), int menu = 0, int color = _white)
+	{
+		pos.x = x;
+		pos.y = y;
+		this->str = str;
+		this->color = color;
+		def_color = color;
+		buttons.push_back(this);
+		Action = *f;
+		this->menu = menu;
+	}
+
+	~Button() {};
+	void ChangeState()
+	{
+		if (clicked == false)
+		{
+			clicked = true;
+			color = _green;
+			return;
+		}
+		if (clicked == true)
+		{
+			clicked = false;
+			color = def_color;
+			return;
+		}
+	}
+	void Reset()
+	{
+		clicked = false;
+		color = def_color;
+	}
+
+
+};
+
 class PercentString
 {
 public:
@@ -401,6 +466,7 @@ inline std::vector<ClickableString*> ClickableString::clickablestrings;
 inline std::vector<ClickableVarString*> ClickableVarString::clickablevarstrings;
 inline std::vector<ClickableBackButton*>ClickableBackButton::clickablestrings;
 inline std::vector<PercentString*>PercentString::variablestrings;
+inline std::vector<Button*> Button::buttons;
 
 
 #endif STRINGMGR_

@@ -1,5 +1,10 @@
 #pragma once
-#include "WorkManager.h"
+
+#ifndef NAR__
+#define NAR__
+#include "Linker.h"
+
+
 
 class Narrator
 {
@@ -29,13 +34,8 @@ public:
 		read_count = 1;
 
 	}
-	void AddInfo(std::string str)
-	{
-		if (info[0] == " ")info.erase(info.begin());
-		else pages++;
-		info.push_back(str);
-		read.push_back(false);
-		
-	}
+	void AddInfo(std::string str);
 
 };
+
+#endif NAR__

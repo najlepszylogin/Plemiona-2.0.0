@@ -1,5 +1,10 @@
 #pragma once
+#ifndef CITY__
+#define CITY__
 
+#include "Linker.h"
+#include "Vector2.h"
+#include "Player.h"
 
 class City
 {
@@ -31,3 +36,5 @@ class Capital : City
 	
 
 };
+
+#endif CITY__

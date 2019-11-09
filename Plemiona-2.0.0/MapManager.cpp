@@ -1,4 +1,5 @@
 #include "MapManager.h"
+#include "UI.h"
 #include "BonusFuncs.h"
 
 
@@ -6,8 +7,12 @@ void MapManager::Draw(GameManager *mgr)
 {
 	int w=4;
 	int h = 4;
-	mgr->wind.gotoxy(18, 2);
-	std::wcout << "MAPA SWIATA";
+	mgr->wind.gotoxy(17, 2);
+	setlocale(LC_ALL, "polish");
+	std::wcout << "MAPA REGIONU";
+	setlocale(LC_ALL, "C");
+	mgr->WriteVarString(UI::strings::cursorPositionx);
+	mgr->WriteVarString(UI::strings::cursorPositiony);
 
 	//main map
 	if(Game::map_type == 0)
@@ -83,13 +88,74 @@ void MapManager::Draw(GameManager *mgr)
 		w++;
 	}
 
-	if(Game::map_type == 1)
+	//other maps
+
+	if (Game::map_type == 8)
+		for (int i = mgr->players[Game::currentPlayer].mapPos.x - 19; i < mgr->players[Game::currentPlayer].mapPos.x + 19; i++)
+		{
+			h = 4;
+			for (int j = mgr->players[Game::currentPlayer].mapPos.y - 19; j < mgr->players[Game::currentPlayer].mapPos.y + 19; j++)
+			{
+				mgr->wind.gotoxy(w, h);
+				if (j < size.y && j >= 0 && i < size.x && i >= 0 && mainMap[i][j].open[Game::currentPlayer])
+				{
+					//bonuses here
+					if (mainMap[i][j].bonus.met == false && mainMap[i][j].bonus.name != names::empty)mainMap[i][j].bonus.Met(mgr);
+
+
+
+					if (currentTile->pos.x == i && currentTile->pos.y == j)
+					{
+						SetConsoleTextAttribute(mgr->wind.hOut, _black | _black);
+						std::cout << mainMap[i][j].appearance[0];
+						SetConsoleTextAttribute(mgr->wind.hOut, _white);
+					}
+					else
+					{
+						if (mainMap[i][j].name != names::water && mainMap[i][j].name != names::river && mainMap[i][j].name != names::mountains)
+						{
+							if (mainMap[i][j].income[Game::income_type] > 0)SetConsoleTextAttribute(mgr->wind.hOut, _green | _gray);
+							if (mainMap[i][j].income[Game::income_type] == 0)SetConsoleTextAttribute(mgr->wind.hOut, _white | _gray);
+							if (mainMap[i][j].income[Game::income_type] < 0)SetConsoleTextAttribute(mgr->wind.hOut, _red | _gray);
+						}
+						else
+						{
+							if (mainMap[i][j].name != names::water && mainMap[i][j].name != names::river)
+							{
+								if (mainMap[i][j].income[Game::income_type] > 0)SetConsoleTextAttribute(mgr->wind.hOut, 123);
+								if (mainMap[i][j].income[Game::income_type] == 0)SetConsoleTextAttribute(mgr->wind.hOut, 128);
+								if (mainMap[i][j].income[Game::income_type] < 0)SetConsoleTextAttribute(mgr->wind.hOut, 125);
+							}
+							else
+							{
+								if (mainMap[i][j].income[Game::income_type] > 0)SetConsoleTextAttribute(mgr->wind.hOut, 59);
+								if (mainMap[i][j].income[Game::income_type] == 0)SetConsoleTextAttribute(mgr->wind.hOut, 56);
+								if (mainMap[i][j].income[Game::income_type] < 0)SetConsoleTextAttribute(mgr->wind.hOut, 61);
+							}
+							
+						}
+						
+						std::cout << std::abs(mainMap[i][j].income[Game::income_type]);
+						SetConsoleTextAttribute(mgr->wind.hOut, _white);
+					}
+
+				}
+				else if (j == -1 || i == -1 || i == size.x || j == size.y)std::cout << "@";
+				else std::cout << " ";
+				h++;
+			}
+			w++;
+		}
+
+	
 	if (highlighted)
 	{
+		
 		mgr->wind.gotoxy(7, 52);
 		SetConsoleTextAttribute(mgr->wind.hOut, currentTile->color | currentTile->back_color);
 		std::cout << currentTile->appearance[0];
 		SetConsoleTextAttribute(mgr->wind.hOut, _white);
+		setlocale(LC_ALL, "polish");
 		mgr->wind.gotoxy(10, 52);
 		std::cout << "Nazwa: " << currentTile->name << "     ";
 		mgr->wind.gotoxy(10, 53);
@@ -97,9 +163,9 @@ void MapManager::Draw(GameManager *mgr)
 		mgr->wind.gotoxy(10, 54);
 		std::cout <<"y: "<< currentTile->pos.y << "     ";
 		mgr->wind.gotoxy(10, 55);
-		if(currentTile->owning == nullptr)std::cout << "Naleznosc: Nikt" << "     ";
+		if(currentTile->owning == nullptr)std::cout << "Nale¿noœæ: Nikt" << "     ";
 		else
-		std::cout << "Naleznosc: " << currentTile->owning->name << "     ";
+		std::cout << "Nale¿noœæ: " << currentTile->owning->name << "     ";
 		mgr->wind.gotoxy(10, 56);
 		if (currentTile->bonus.name == names::empty)std::cout << "Bonus: Brak" << "              ";
 		else
@@ -109,9 +175,15 @@ void MapManager::Draw(GameManager *mgr)
 		mgr->wind.gotoxy(10, 58);
 		std::cout << "Urodzaj: " << currentTile->soil << "    ";
 		mgr->wind.gotoxy(10, 59);
-		std::cout << "Koszt Przejscia: " << currentTile->travelCost << "   ";
+		std::cout << "Koszt Przejœcia: " << currentTile->travelCost << "   ";
 
 
+		//nd box
+		mgr->wind.gotoxy(45, 44);
+		std::cout << "Przychód";
+
+
+		setlocale(LC_ALL, "C");
 	}
 
 }
@@ -174,6 +246,7 @@ void MapManager::LoadMap(std::string filename)
 			if (mainmapimage.getPixel(i, j) == (map::grass))
 			{
 				mainMap[i][j].Reset(_green, names::plains, Vector2(i, j), &map::grassch);
+				//mainMap[i][j].income[income_::gold]++;
 				continue;
 			}
 			if (mainmapimage.getPixel(i, j) == map::river)
@@ -244,7 +317,7 @@ void MapManager::LoadMap(std::string filename)
 		for (int j = 0; j < size.y; j++)
 		{
 			if (mainMap[i][j].name == names::plains)
-				if (rand() % 100 > 95)
+				if (rand() % 100 > 97)
 				{
 					mainMap[i][j].bonus = BonusTile(bonusFunc::wheatWhenMet, bonusFunc::wheatPerTurn, names::additionals::wheat, Vector2(i, j));
 					mainMap[i][j].appearance = &map::riverch;

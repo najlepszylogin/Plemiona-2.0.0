@@ -1,7 +1,7 @@
 #pragma once
-#include <math.h>
+#ifndef VEC__
+#define VEC__
 #include <iostream>
-
 
 class Vector2
 {
@@ -40,3 +40,5 @@ public:
 
 
 };
+
+#endif VEC__

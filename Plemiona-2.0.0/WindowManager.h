@@ -1,9 +1,4 @@
 #pragma once
-
-
-#include <Windows.h>
-#include <iostream>
-#include "Vector2.h"
 #ifndef WINDOWMGR_
 #define WINDOWMGR_
 
@@ -24,8 +19,8 @@ public:
 	COORD coord;
 	CONSOLE_CURSOR_INFO cci;
 	PCONSOLE_SCREEN_BUFFER_INFO inf;
-
-
+	
+	int mouseState=0;
 
 
 
@@ -85,7 +80,7 @@ public:
 		cfi.FontWeight = FW_NORMAL;
 		//wcscpy_s(cfi.FaceName, L"Consolas"); // Choose your font
 		SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
-
+		setlocale(LC_ALL, "UTF");
 		
 	}
 

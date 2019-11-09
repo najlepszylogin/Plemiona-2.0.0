@@ -1,4 +1,11 @@
 #pragma once
+
+
+
+#ifndef DEF__
+#define DEF__
+#include "Linker.h"
+
 #define bloczek 219
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -37,6 +44,9 @@
 #define _pink 13
 #define _laz 11
 
+#define MAP_UPDATE 2
+#define SCENE_UPDATE 1
+
 //map elements//
 namespace map
 {
@@ -65,5 +75,10 @@ namespace map
 	inline int maxTravelCost = 99;
 }
 
+namespace months
+{
+	inline std::string months[12] = {"Styczeñ","Luty","Marzec","Kwiecieñ","Maj","Czerwiec","Lipiec","Sierpieñ","Wrzesieñ","PaŸdziernik","Listopad","Grudzieñ"};
+}
 
+#endif DEF__
 

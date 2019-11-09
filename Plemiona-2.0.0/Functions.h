@@ -1,6 +1,9 @@
 #pragma once
+#ifndef FU__
+#define FU__
 #include "GameManager.h"
-
+#include "MapManager.h"
+class GameManager;
 
 
 
@@ -17,7 +20,8 @@ namespace func
 		system("CLS");
 		mgr->wind.Init();
 		game.DrawAllBoxes();
-
+		mgr->sound.Play(sound::menuhud);
+		
 	};
 	inline void openMainMenu(GameManager* mgr)
 	{
@@ -25,6 +29,8 @@ namespace func
 		system("CLS");
 		mgr->wind.Init();
 		game.DrawAllBoxes();
+		mgr->sound.Play(sound::menuhud);
+		game.UpdateMap();
 	};
 	inline void mousePosF(GameManager* mgr)
 	{
@@ -61,30 +67,32 @@ namespace func
 		system("CLS");
 		mgr->wind.Init();
 		game.DrawAllBoxes();
+		game.UpdateMap();
 	}
 	inline void up(GameManager* mgr)
 	{
 		if(mgr->players[Game::currentPlayer].mapPos.y > 0)
 		mgr->players[Game::currentPlayer].mapPos.y--;
+		game.UpdateMap();
 		
 	}
 	inline void down(GameManager* mgr)
 	{
 		if (mgr->players[Game::currentPlayer].mapPos.y < MainMap.size.y - 1)
 		mgr->players[Game::currentPlayer].mapPos.y++;
-		
+		game.UpdateMap();
 	}
 	inline void left(GameManager* mgr)
 	{
 		if (mgr->players[Game::currentPlayer].mapPos.x > 0)
 		mgr->players[Game::currentPlayer].mapPos.x--;
-		
+		game.UpdateMap();
 	}
 	inline void right(GameManager* mgr)
 	{
 		if (mgr->players[Game::currentPlayer].mapPos.x < MainMap.size.x - 1)
 		mgr->players[Game::currentPlayer].mapPos.x++;
-		
+		game.UpdateMap();
 	}
 	inline void VolumeMusicPlus(GameManager* mgr)
 	{
@@ -99,19 +107,20 @@ namespace func
 	inline void VolumeSoundPlus(GameManager* mgr)
 	{
 		if (mainSettings::soundsVol < 100)mainSettings::soundsVol += 10;
-		mgr->ChangeVolume(mainSettings::soundsVol);
+		mgr->ChangeSoundVolume(mainSettings::soundsVol);
 	}
 	inline void VolumeSoundMinus(GameManager* mgr)
 	{
 		if (mainSettings::soundsVol > 0)mainSettings::soundsVol -= 10;
-		mgr->ChangeVolume(mainSettings::soundsVol);
+		mgr->ChangeSoundVolume(mainSettings::soundsVol);
 	}
+	
 
 
 }
 
 
-
+#endif FU__
 
 
 

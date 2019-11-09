@@ -42,6 +42,9 @@
     <ClCompile Include="CapitalMap.cpp">
       <Filter>Pliki źródłowe\CPPS</Filter>
     </ClCompile>
+    <ClCompile Include="Narrator.cpp">
+      <Filter>Pliki źródłowe\CPPS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VariableManager.h">
@@ -57,9 +60,6 @@
       <Filter>Pliki nagłówkowe\Engine</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Pliki nagłówkowe\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Loader.h">
       <Filter>Pliki nagłówkowe\Engine</Filter>
     </ClInclude>
     <ClInclude Include="MapManager.h">
@@ -80,9 +80,6 @@
     <ClInclude Include="WindowManager.h">
       <Filter>Pliki nagłówkowe\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="WorkManager.h">
-      <Filter>Pliki nagłówkowe\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="Functions.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
@@ -95,9 +92,6 @@
     <ClInclude Include="MusicManager.h">
       <Filter>Pliki nagłówkowe\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Pliki nagłówkowe\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="AssetLoaders.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
@@ -106,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="Strings.h">
       <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Pliki nagłówkowe\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Linker.h">
+      <Filter>Pliki nagłówkowe\Engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

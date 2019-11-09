@@ -159,6 +159,7 @@
     <ClCompile Include="CapitalMap.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="Narrator.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Plemiona-2.0.0.cpp" />
     <ClCompile Include="TODO.cpp" />
@@ -171,21 +172,20 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Loader.h" />
+    <ClInclude Include="Linker.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="MusicManager.h" />
     <ClInclude Include="Narrator.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="SettingsManager.h" />
     <ClInclude Include="Shapes.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StringManager.h" />
     <ClInclude Include="Strings.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="VariableManager.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="WindowManager.h" />
-    <ClInclude Include="WorkManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Names.h" />

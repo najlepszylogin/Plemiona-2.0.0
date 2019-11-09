@@ -2,7 +2,6 @@
 
 #ifndef PLAYER_
 #define PLAYER_
-#include "Vector2.h"
 #include "Narrator.h"
 
 class Player
@@ -28,5 +27,5 @@ public:
 
 };
 
-#endif // !PLAYER_
+#endif PLAYER_
 

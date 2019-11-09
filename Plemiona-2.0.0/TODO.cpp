@@ -14,7 +14,7 @@ na mapie :
  urzêdnik (zwieksza gospodarczosc gminy)
  dyplomata (wysy³any do panstw-miast)
 
-
+ tytu³y graczy
  handlarz
  budowa tartakow
 budowa farm
@@ -222,11 +222,11 @@ morskie:
 	 -+ narrator ktory opowiada wydarzenia na mapie podczas tury
 	 civilization builder 
 	 edytor map
-
+	 pory roku
 
 	 SILNIKOWE:
 
-	 Dzwieki manager
+	 ++Dzwieki manager
 	 AI
 	 Multiplayer online
 	 -+ wyswietlanie innych map
@@ -234,7 +234,7 @@ morskie:
 	 zapisywanie w plikach dat
 	 event systems
 	 dialog box
-	
+	 ++time in game
 	 ++progress bar
 	 ++procent string
 
